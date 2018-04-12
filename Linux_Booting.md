@@ -46,8 +46,9 @@ The boot process can be summerized as below 4 steps
 
 ![hardware_boot_steps.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/hardware_boot_steps.png?raw=true)
 
-			 *Time Flow for boot process* 
+			*Time Flow for boot process* 
 ![boot_process_view.gif](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/boot_process_view.gif?raw=true)
+
 				*Linux boot view* 
 
 ###  Phase I BIOS
@@ -82,6 +83,7 @@ BIOS needs to know where to find the further codes? BIOS is small, we need a big
 Boot Sequence in BIOS decides where is our OS. And it's configurable. 
 
 ![Boot_sequence.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/Boot_sequence.png?raw=true)
+
 						BIOS Boot Sequence 
 
 **Wait?** BIOS was written in ROM and ROM should be ReadOnly, so where did BIOS stores the configuraiton settings?
