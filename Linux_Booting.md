@@ -295,6 +295,9 @@ Initramfs is kind of tmpfs mounted.
 mount -t tmpfs nodev /root
 zcat initramfs | cpio -i
 ```
+```bash
+ /usr/lib/dracut/skipcpio initramfs-3.10.0-862.el7.x86_64.img|zcat |cpio -imdv
+```
 
 #### Rootfs 
 
