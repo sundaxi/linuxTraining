@@ -44,12 +44,11 @@ The boot process can be summerized as below 4 steps
 - BootLoader 
 - Operation System initialization 
 
+*Time Flow for boot process* 
 ![hardware_boot_steps.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/hardware_boot_steps.png?raw=true)
-
-			*Time Flow for boot process* 
+*Linux boot view* 
 ![boot_process_view.gif](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/boot_process_view.gif?raw=true)
 
-				*Linux boot view* 
 
 ###  Phase I BIOS
 
@@ -138,7 +137,6 @@ MBR consists of three part below
 - the last 2 bytes, Magic Number(should be 55AA)
 
 ![hardware_mster_boot_record_0.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/hardware_mster_boot_record_0.png?raw=true)
-				MBR
 
 The Boot loader stage 1 stores on the first 446 bytes of MBR, and this program will take control from BIOS. 
 
