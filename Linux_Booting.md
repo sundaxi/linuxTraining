@@ -27,8 +27,6 @@ Table of Contents
       * [Reference](#reference)
 
 
-[TOC]
-
 
 
 ## Hen and Egg	
