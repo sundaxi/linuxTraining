@@ -314,7 +314,11 @@ The first process of operation system.
 ## Reference 
 
 https://manybutfinite.com/post/kernel-boot-process/
+
 https://www.ibm.com/developerworks/library/l-linuxboot/
+
 https://manybutfinite.com/post/motherboard-chipsets-memory-map/
+
 https://en.wikipedia.org/wiki/Initial_ramdisk
+
 https://www.ibm.com/developerworks/library/l-initrd/
