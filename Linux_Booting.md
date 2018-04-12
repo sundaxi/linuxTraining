@@ -45,8 +45,11 @@ The boot process can be summerized as below 4 steps
 - Operation System initialization 
 
 *Time Flow for boot process* 
+
 ![hardware_boot_steps.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/hardware_boot_steps.png?raw=true)
+
 *Linux boot view* 
+
 ![boot_process_view.gif](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/boot_process_view.gif?raw=true)
 
 
@@ -81,9 +84,10 @@ After POST, BIOS give the contol to next phase program.
 BIOS needs to know where to find the further codes? BIOS is small, we need a bigger size and persistent storage for operation system, isn't. 
 Boot Sequence in BIOS decides where is our OS. And it's configurable. 
 
+*BIOS Boot Sequence*
+
 ![Boot_sequence.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/Boot_sequence.png?raw=true)
 
-						BIOS Boot Sequence 
 
 **Wait?** BIOS was written in ROM and ROM should be ReadOnly, so where did BIOS stores the configuraiton settings?
 
