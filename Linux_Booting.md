@@ -1,17 +1,11 @@
 # Linux_Booting.md
 
-Table of Contents
 =================
 
    * [Linux Booting](#linux-booting)
       * [Hen and Egg](#hen-and-egg)
       * [Boot Process](#boot-process)
-         * [Phase I BIOS](#phase-i-bios)
-            * [CPU and Mortherboard](#cpu-and-mortherboard)
-            * [POST](#post)
             * [Boot Sequence](#boot-sequence)
-            * [ACPI](#acpi)
-            * [Intel VT](#intel-vt)
          * [Phase II MBR](#phase-ii-mbr)
             * [MBR](#mbr)
             * [Partition table](#partition-table)
@@ -19,12 +13,26 @@ Table of Contents
             * [Boot loader stage 1](#boot-loader-stage-1)
             * [Boot loader stage 1.5](#boot-loader-stage-15)
             * [Boot Loader Stage 2](#boot-loader-stage-2)
-         * [Phase IV Operation System initialization](#phase-iv-operation-system-initialization)
             * [Kernel and modules](#kernel-and-modules)
             * [Initrd &amp; Initramfs](#initrd--initramfs)
             * [Rootfs](#rootfs)
-            * [INIT process](#init-process)
+            * [Start Kernel](#start-kernel)
+               * [Runlevel](#runlevel)
+               * [rc.sysinit](#rcsysinit)
+            * [rc.local](#rclocal)
+            * [Systemd](#systemd)
+               * [Dependency](#dependency)
+                  * [Units](#units)
+               * [Basic command](#basic-command)
+      * [Azure Provisioning](#azure-provisioning)
+         * [Waagent](#waagent)
+            * [Stages](#stages)
+               * [local stage](#local-stage)
+               * [network stage](#network-stage)
+               * [config stage](#config-stage)
+               * [final stage](#final-stage)
       * [Reference](#reference)
+
 
 
 
@@ -33,104 +41,52 @@ Table of Contents
 
 Boot, and bootstrap. comes from the old saying that "**pull oneself up by one's bootstrap**" 
 Bootstraping is kind of self-starting process which is supposed to proceed without any external input. 
-The boot process of computer is paradoxical process,  you must run the program before the computer can start, but the computer will not be able to run the program without starting!
 
 ## Boot Process 
 
-The boot process can be summerized as below 4 steps 
 
-- BIOS
 - MBR
 - BootLoader 
-- Operation System initialization 
 
-*Time Flow for boot process* 
 
 ![hardware_boot_steps.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/hardware_boot_steps.png?raw=true)
 
-*Linux boot view* 
+*Linux boot view* 					
 
 ![boot_process_view.gif](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/boot_process_view.gif?raw=true)
+							  
 
 
-###  Phase I BIOS
 
-#### CPU and Mortherboard 
 
-The first hen and egg question. 
-By default, CPU runs instruction set and loads the code from Memory or ROM in some enbbeded system. But when the memory is empty and different hard computer motherboard provides different environment. How CPU knows where to get the correct code to start up the physcial box? Where is the first code?
 
-The answer is the chipset of motherboard sent a RESET signal(pulse signal). When CPU receives the RESET signal, it resets to initial status with inital code. Once the power comes statbile, the RESET signal withdraws, and CPU starts to work with initial code. 
 
-The initial code IN CPU indicates to get further code from a ROM device named BIOS. 
 
-#### POST 
-
-The first BIOS program is POST. Power-on Self-Test. The POST program performs a check of the hardware and it beeps if anything wrong. 
 checked below:
 
 - PSU
-- CPU chip
-- BIOS chip
 - timer chip 
 - DMA controller 
-- Interrupt Controller 
 
-beeps code https://en.wikipedia.org/wiki/Power-on_self-test#Original_IBM_POST_beep_codes
 
 #### Boot Sequence 
 
-After POST, BIOS give the contol to next phase program. 
-BIOS needs to know where to find the further codes? BIOS is small, we need a bigger size and persistent storage for operation system, isn't. 
-Boot Sequence in BIOS decides where is our OS. And it's configurable. 
-
-*BIOS Boot Sequence*
-
-![Boot_sequence.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/Boot_sequence.png?raw=true)
 
 
-**Wait?** BIOS was written in ROM and ROM should be ReadOnly, so where did BIOS stores the configuraiton settings?
+![Boot_sequence.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/Boot_sequence.png?raw=true)						
 
-Yes, the answer is **CMOS**. It's kind of special RAM, and its battery was provided by motherboard. 
 
-#### ACPI
 
-https://en.wikipedia.org/wiki/Advanced_Configuration_and_Power_Interface
-After POST, BIOS will initialize all the hareware resources inclding of I/O port, Interrupt, RAM range and etc... And BIOS will store all the device map to ACPI. This mapping table will be used by Kernel afterwards. 
+
 
 ```bash
-[    0.000000] e820: BIOS-provided physical RAM map:
-[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
-[    0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
-[    0.000000] BIOS-e820: [mem 0x00000000000e0000-0x00000000000fffff] reserved
-[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x000000001ffeffff] usable
-[    0.000000] BIOS-e820: [mem 0x000000001fff0000-0x000000001fffefff] ACPI data
-[    0.000000] BIOS-e820: [mem 0x000000001ffff000-0x000000001fffffff] ACPI NVS
-[    0.000000] BIOS-e820: [mem 0x0000000100000000-0x000000014fffffff] usable
-[    0.000000] ACPI: RSDP 00000000000f5bf0 00014 (v00 ACPIAM)
-[    0.000000] ACPI: RSDT 000000001fff0000 00040 (v01 VRTUAL MICROSFT 06001702 MSFT 00000097)
-[    0.000000] ACPI: FACP 000000001fff0200 00081 (v02 VRTUAL MICROSFT 06001702 MSFT 00000097)
-[    0.000000] ACPI: DSDT 000000001fff1d24 03CBE (v01 MSFTVM MSFTVM02 00000002 INTL 02002026)
-[    0.000000] ACPI: FACS 000000001ffff000 00040
-[    0.000000] ACPI: WAET 000000001fff1a80 00028 (v01 VRTUAL MICROSFT 06001702 MSFT 00000097)
-[    0.000000] ACPI: SLIC 000000001fff1ac0 00176 (v01 VRTUAL MICROSFT 06001702 MSFT 00000097)
-[    0.000000] ACPI: OEM0 000000001fff1cc0 00064 (v01 VRTUAL MICROSFT 06001702 MSFT 00000097)
-[    0.000000] ACPI: SRAT 000000001fff0800 00130 (v02 VRTUAL MICROSFT 00000001 MSFT 00000001)
-[    0.000000] ACPI: APIC 000000001fff0300 00452 (v01 VRTUAL MICROSFT 06001702 MSFT 00000097)
-[    0.000000] ACPI: OEMB 000000001ffff040 00064 (v01 VRTUAL MICROSFT 06001702 MSFT 00000097)
 ```
 
-#### Intel VT 
 
-If you need to run virtual machine on your physical box, don't forgot to enable the virtualization settings in BIOS as well. 
 
-![Intel_VT.jpg](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/Intel_VT.jpg?raw=true)
 
 ### Phase II MBR
 
-OK. It's time to handover the task to next shift engineer. 
-BIOS uses INT 13 to load the MBR. 
-Master Boot record is short for MBR. The size is 512 bytes which is the first sector of harddrive. 
 
 #### MBR
 
@@ -140,16 +96,15 @@ MBR consists of three part below
 - next 64 bytes, partition table 
 - the last 2 bytes, Magic Number(should be 55AA)
 
+*MBR View*
+
 ![hardware_mster_boot_record_0.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/hardware_mster_boot_record_0.png?raw=true)
 
-The Boot loader stage 1 stores on the first 446 bytes of MBR, and this program will take control from BIOS. 
 
 #### Partition table
 
 At most 4 primary partitions or 3 parimary partitions and 1 extented partition. 
-Each partition has 16 bytes and the last 4 bytes(total sector numbers) decide the length of partition, the maxisum size is 2^32 which is 2TB. 
 
-The extended partition table is a pointor to logical partition 
 
 ### Boot Phase III BootLoader
 
@@ -164,7 +119,6 @@ Note: Grub doesn't care about bootable flag acctually.
 Boot loader finds out the boot sector and read the first sector of boot partition into memory. Anything wrong prompts the error "Error Loading operation system" 
 Notes: it reads the first sector of boot sector not meaning MBR here. 
 
-In the end, boot loader check the MBR magic number 55AA. If not , comes the error "Missing Operation system"
 
 For this stage, error can be conclude below
 
@@ -175,9 +129,7 @@ For this stage, error can be conclude below
 
 #### Boot loader stage 1.5
 
-The second hen and egg question here. As you might already know that the grub main code and kernel code are stored under /boot/ mountpoint. But the problem, if you want to mount a mountpoint, you must give it a **filesystem**! And the filesystem module was stored in /boot/initramfs*
 
-The codes in stage 1 are too tiny. We cannot put the filesystem module there.  In order to get access to /boot folder, we need Boot loader stage 1.5 to help provide the filesystem code and mount it temporary. 
 
 Boot loader stage 1.5 was stored on the first 32K of harddrive. From sector 2 to sector 64
 
@@ -192,7 +144,6 @@ fdisk -l /dev/sda
 Disk /dev/sda: 34.4 GB, 34359738368 bytes, 67108864 sectors
 Units = sectors of 1 * 512 = 512 bytes
 Sector size (logical/physical): 512 bytes / 512 bytes
-I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disk label type: dos
 Disk identifier: 0x000abaa3
    Device Boot      Start         End      Blocks   Id  System
@@ -200,11 +151,9 @@ Disk identifier: 0x000abaa3
 /dev/sda2         1026048    67108863    33041408   83  Linux
 ```
 
-Try this out to check reserved the disk, nothing is there.
 
 ```bash
 dd if=/dev/sda of=partition_reserved.img skip=512 bs=512 count=1536
-hexdump -C partition_after.img
 00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
 *
 000c0000
@@ -237,7 +186,6 @@ BootLoader loads the kernel and initramfs to memory and give the control to kern
 
 Wait, what does initramfs used for?
 
-### Phase IV Operation System initialization  
 
 #### Kernel and modules 
 
@@ -248,40 +196,28 @@ Let's check the root filesystem module xfs for example.
 # modinfo xfs
 filename:       /lib/modules/3.10.0-693.11.6.el7.x86_64/kernel/fs/xfs/xfs.ko.xz
 license:        GPL
-description:    SGI XFS with ACLs, security attributes, no debug enabled
 author:         Silicon Graphics, Inc.
 alias:          fs-xfs
 rhelversion:    7.4
-srcversion:     1BE72505E1F78C8542EA721
 depends:        libcrc32c
 intree:         Y
 vermagic:       3.10.0-693.11.6.el7.x86_64 SMP mod_unload modversions
 signer:         Red Hat Enterprise Linux kernel signing key
-sig_key:        5F:D8:EB:CF:C4:C5:20:3C:3C:B7:90:52:19:FB:66:9D:5F:4B:E3:FF
 sig_hashalgo:   sha256
 ```
 
-The third hen and egg question,  did you see any interesting here? 
-The xfs module was stored on /lib/modules/3.10.0-693.11.6.el7.x86_64/kernel/fs/xfs/xfs.ko.xz which is root mountpoint. 
 And / is mounted as xfs filesystem, isn't? How does that happen... 
 If you need to mount a mountpoint, you need filesystem module loaded, if you want to load the filesystem module, you need get access to /lib/modules folder first... 
-The kernel becomes cubersome if we add all the filesystem modules to the kernel itself 
 
-Check all loaded filesystem 
 
 ```bash
 cat /proc/filesystems
 ```
 
-The same question is also for INIT process which is located /sbin/init. 
-So we need a middleware to achieve this. That is initramfs/initrd
 
 #### Initrd & Initramfs 
 
-The initramfs is used to solve above issue. 
-The device drivers for this generic kernel image are included as loadable kernel modules because statically compiling many drivers into one kernel causes the kernel image to be much larger, perhaps too large to boot on computers with limited memory. This then raises the problem of detecting and loading the modules necessary to mount the root file system at boot time, or for that matter, deducing where or what the root file system is.
 
-The initrd was deprecated after kernel 2.4. 
 Initrd is kind of ramdev block device. It's ram-based block device, that is simulated hard disk that uses memory instead of physical disks. And you need to uncompress it into memory and mount it as a filesystem. In this case, the same content exists in memory twice. 
 
 ```bash
@@ -295,9 +231,6 @@ Initramfs is kind of tmpfs mounted.
 mount -t tmpfs nodev /root
 zcat initramfs | cpio -i
 ```
-```bash
- /usr/lib/dracut/skipcpio initramfs-3.10.0-862.el7.x86_64.img|zcat |cpio -imdv
-```
 
 #### Rootfs 
 
@@ -309,19 +242,214 @@ Initramfs is a rootfs instance.  For a rootfs at least contain below folders
 - /lib/
 - /dev/
 
-#### INIT process 
+#### Start Kernel 
 
-The first process of operation system. 
+Start function `arch/x86/boot/header.S` 
+*Real Mode to Protected Mode*
+
+![bootstrap_startup_process.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/bootstrap_startup_process.png?raw=true)
+
+Kernel will initiate the Interrupt and Memory. 
+
+
+After this, Kernel will be normally loaded with start_kernel() and dmesg starts to work at this moment. 
+
+
+
+
+- SystemV Period (RHEL5). /etc/inittab
+- Upstart (RHEL6). /etc/init/ 
+- Systemd(RHEL7). /etc/
+
+
+- Determine the runlevel(systemv), for systemd, it's just a logical old concept which is inherited from SystemV
+- rc.sysinit to initiate the boot provisioning 
+- start the services based on runnlevel 
+
+##### Runlevel 
+
+0 - Halt
+1 - Single User mode. No network, no deamon service, only super user could login 
+2 - Multi User. No network, no daemon service
+3 - Multi User. Normally start the system. No Graphic User Interface
+4 - User customized. 
+5 - Advanced Runlevel 3 with GUI
+6 - Reboot 
+
+##### rc.sysinit 
+
+
+- Run network scripts 
+- Print a text banner 
+- Set the system clock 
+- Initialize hardware 
+- Load other user-defined modules 
+- Set the hostname 
+- RAID setup 
+- Device mapper & related initialization(LVM)
+- Update quotas if necessary 
+- Remote the root filesystem read-write 
+- Reset pam_console permission
+- Start up swapping 
+- Initialize the serial ports 
+- Active syslog, write to log files
+
+#### rc.local
+
+For customized script, please define at /etc/rc.local
+
+#### Systemd
+
+
+
+```bash
+$ ls -lrat /lib/systemd/system/default.target
+lrwxrwxrwx 1 root root 16 Feb 20 16:11 /lib/systemd/system/default.target -> graphical.target
+
+$ cat /lib/systemd/system/default.target
+[Unit]
+Description=Graphical Interface
+Documentation=man:systemd.special(7)
+Requires=multi-user.target
+Wants=display-manager.service
+After=multi-user.target rescue.service rescue.target display-manager.service
+AllowIsolate=yes
+```
+
+
+![systemd_boot_process.png](https://github.com/sundaxi/materials/blob/master/pics/linux_compute/systemd_boot_process.png?raw=true)
+
+
+All the units are stored on /usr/lib/systemd/system/ and /etc/systemd/system/ directory.  And /etc/systemd/system has a higher priority. 
+
+##### Dependency 
+
+Note: `Wants=` and `Requires=` don't equal to `After=`, if no after defined, A and B will be started parrellelly. 
+
+check dependency 
+
+```bash
+systemctl list-dependencies sysinit.target
+```
+
+
+
+###### Units 
+
+service: define system service 
+mount: define system mount point 
+device: define system device 
+swap: define system swap device 
+path: define system file or directory 
+target: Used for manage the boot process and simulate runlevel
+timer: systemd managed timer
+
+- For mount point /home, it equals to home.mount 
+- For device such as /dev/sda2, it equals to dev-sda2.device 
+
+Note: @ stands for instance. ex, name@string.service means the instance of name@service
+
+##### Basic command 
+
+
+```bahs
+systemd-analyze critical-chain --fuzz 1h --no-pager
+```
+
+
+```bash
+systemctl
+systemctl list-units
+```
+
+
+```bash
+systemctl --failed 
+```
+
+
+```bash
+systemctl list-unit-files 
+```
+
+Reload all the units, if you did some change on the units configuration file. 
+
+```bash
+systemctl daemon-reload
+```
+
+
+```bash
+systemctl get-default
+```
+
+Switch the runlevel 
+
+```bash
+systemctl isolate graphical.target
+```
+
+Set teh default runlevel
+
+```bash
+systemctl set-default multi-user.target
+```
+
+## Azure Provisioning 
+
+### Waagent
+
+
+
+
+
+
+cloud-init gets the metadata from datasource. And it helps to finish following provisioning
+
+- Set default locale
+- Set hostname 
+- Add authorized keys 
+- set user/password
+- install packages
+
+#### Stages
+
+For example, in Azure, when you resize the os disk on ubuntu, you don't need to use resize the partition table and filesystem manually, due to modules "resizefs && growpart"
+
+| ------- | ------------------------ | ------------------------------------------------------------ |
+| local   | cloud-init-local.service | /usr/bin/cloud-init init --local;<br />/bin/touch /run/cloud-init/network-config-ready |
+| network | cloud-init.service       | /usr/bin/cloud-init init                                     |
+| config  | cloud-config.service     | /usr/bin/cloud-init modules --mode=config                    |
+| final   | cloud-final.service      | /usr/bin/cloud-init modules --mode=final                     |
+
+##### local stage 
+
+
+##### network stage
+
+disk_setup and mounts modules are used to format disk and configure the mountpoint based on /etc/fstab
+
+##### config stage
+
+Run configuration module 
+
+##### final stage 
+
+Start some automation tool like chef or saltstack 
+
+
+*Note: Not every module failure results in a fatal cloud-init overall configuration failure. For example, using the `runcmd` module, if the script fails, cloud-init will still report provisioning succeeded because the runcmd module executed.*
+
+
+http://cloudinit.readthedocs.io/en/latest/topics/examples.html
+
 
 
 ## Reference 
 
 https://manybutfinite.com/post/kernel-boot-process/
-
 https://www.ibm.com/developerworks/library/l-linuxboot/
-
 https://manybutfinite.com/post/motherboard-chipsets-memory-map/
-
 https://en.wikipedia.org/wiki/Initial_ramdisk
-
 https://www.ibm.com/developerworks/library/l-initrd/
+https://linoxide.com/linux-how-to/systemd-boot-process/
