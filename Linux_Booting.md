@@ -267,6 +267,7 @@ After this, Kernel will be normally loaded with start_kernel() and dmesg starts 
 - Systemd(RHEL7). /usr/lib/systemd/
 
 
+
 - Determine the runlevel(systemv), for systemd, it's just a logical old concept which is inherited from SystemV. Initial tty/serial console 
 - rc.sysinit to initiate the boot provisioning 
 - start the services based on runnlevel 
@@ -274,11 +275,17 @@ After this, Kernel will be normally loaded with start_kernel() and dmesg starts 
 ##### Runlevel 
 
 0 - Halt
+
 1 - Single User mode. No network, no deamon service, only super user could login 
+
 2 - Multi User. No network, no daemon service
+
 3 - Multi User. Normally start the system. No Graphic User Interface
+
 4 - User customized. 
+
 5 - Advanced Runlevel 3 with GUI
+
 6 - Reboot 
 
 ##### rc.sysinit 
