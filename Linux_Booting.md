@@ -20,10 +20,15 @@
                * [Runlevel](#runlevel)
                * [rc.sysinit](#rcsysinit)
             * [rc.local](#rclocal)
+            * [SysV](#sysv)
+            * [upstart](#upstart)
             * [Systemd](#systemd)
                * [Dependency](#dependency)
                   * [Units](#units)
-               * [Basic command](#basic-command)
+            * [Installed units](#installed-units)
+            * [Generator](#generator)
+            * [Basic command](#basic-command)
+            * [Define your own service](#define-your-own-service)
       * [Azure Provisioning](#azure-provisioning)
          * [Waagent](#waagent)
             * [Stages](#stages)
@@ -259,10 +264,10 @@ After this, Kernel will be normally loaded with start_kernel() and dmesg starts 
 
 - SystemV Period (RHEL5). /etc/inittab
 - Upstart (RHEL6). /etc/init/ 
-- Systemd(RHEL7). /etc/
+- Systemd(RHEL7). /usr/lib/systemd/
 
 
-- Determine the runlevel(systemv), for systemd, it's just a logical old concept which is inherited from SystemV
+- Determine the runlevel(systemv), for systemd, it's just a logical old concept which is inherited from SystemV. Initial tty/serial console 
 - rc.sysinit to initiate the boot provisioning 
 - start the services based on runnlevel 
 
@@ -298,6 +303,56 @@ After this, Kernel will be normally loaded with start_kernel() and dmesg starts 
 
 For customized script, please define at /etc/rc.local
 
+#### SysV
+
+All the configuration under /etc/inittab, samples below
+
+```bash
+#   1 – Single user mode
+#   3 – Full multiuser mode
+#   4 – unused
+#   5 – X11
+id:5:initdefault:
+# System initialization.
+si::sysinit:/etc/rc.d/rc.sysinit
+l0:0:wait:/etc/rc.d/rc 0
+l1:1:wait:/etc/rc.d/rc 1
+l2:2:wait:/etc/rc.d/rc 2
+l3:3:wait:/etc/rc.d/rc 3
+l4:4:wait:/etc/rc.d/rc 4
+l5:5:wait:/etc/rc.d/rc 5
+l6:6:wait:/etc/rc.d/rc 6
+ca::ctrlaltdel:/sbin/shutdown -t3 -r now
+# When our UPS tells us power has failed, assume we have a few minutes
+# of power left.  Schedule a shutdown for 2 minutes from now.
+# UPS connected and working correctly.
+pf::powerfail:/sbin/shutdown -f -h +2 “Power Failure; System Shutting Down”
+#
+# If power was restored before the shutdown kicked in, cancel it.
+#
+# Run gettys in standard runlevels
+1:2345:respawn:/sbin/mingetty tty1
+2:2345:respawn:/sbin/mingetty tty2
+3:2345:respawn:/sbin/mingetty tty3
+4:2345:respawn:/sbin/mingetty tty4
+5:2345:respawn:/sbin/mingetty tty5
+6:2345:respawn:/sbin/mingetty tty6
+#
+# Run xdm in runlevel 5
+x:5:respawn:/etc/X11/prefdm -nodaemon
+```
+
+#### upstart 
+
+/etc/init/ event script. System get the event based on the event.conf
+example, trigger a system reboot 
+
+```bash
+# /etc/init/control-alt-delete
+start on control-alt-delete
+initctl emit control-alt-delete
+```
+
 #### Systemd
 
 
@@ -314,6 +369,23 @@ Requires=multi-user.target
 Wants=display-manager.service
 After=multi-user.target rescue.service rescue.target display-manager.service
 AllowIsolate=yes
+
+$ cat /lib/systemd/system/multi-user.target
+[Unit]
+Description=Multi-User System
+Documentation=man:systemd.special(7)
+Requires=basic.target
+After=basic.target rescue.service rescue.target
+AllowIsolate=yes
+
+$ cat /lib/systemd/system/basic.target 
+[Unit]
+Description=Basic System
+Documentation=man:systemd.special(7)
+Requires=sysinit.target
+After=sysinit.target
+Wants=sockets.target timers.target paths.target slices.target
+After=sockets.target paths.target slices.target
 ```
 
 
@@ -349,7 +421,15 @@ timer: systemd managed timer
 
 Note: @ stands for instance. ex, name@string.service means the instance of name@service
 
-##### Basic command 
+#### Installed units 
+
+Symbolic link to `/etc/systemd/system/multi-user.target.wants`
+
+#### Generator 
+
+Generators are small binaries that live in /usr/lib/systemd/user-generators/ and other directories. Systemd will execute thoese binaries very early at bootup and at configuration reload time - before unit files are loaded. Example, systemd-fstab-generator 
+
+#### Basic command
 
 
 ```bahs
@@ -395,12 +475,28 @@ Set teh default runlevel
 systemctl set-default multi-user.target
 ```
 
+#### Define your own service 
+
+We could define a service named test.service 
+
+```
+[Unit]
+Description=Azure Linux customized script
+Wants=network-online.target sshd.service sshd-keygen.service
+After=network-online.target
+[Service]
+ExecStart=/etc/rc.d/test start
+[Install]
+WantedBy=multi-user.target
+```
+
 ## Azure Provisioning 
 
 ### Waagent
 
-
-
+- Set resourceDisk 
+- Set useraccount/password/publickey
+- Set Hostname 
 
 
 
@@ -453,3 +549,6 @@ https://manybutfinite.com/post/motherboard-chipsets-memory-map/
 https://en.wikipedia.org/wiki/Initial_ramdisk
 https://www.ibm.com/developerworks/library/l-initrd/
 https://linoxide.com/linux-how-to/systemd-boot-process/
+
+
+
