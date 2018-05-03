@@ -266,7 +266,7 @@ After this, Kernel will be normally loaded with start_kernel() and dmesg starts 
 - Upstart (RHEL6). /etc/init/ 
 - Systemd(RHEL7). /usr/lib/systemd/
 
-
+The INIT process generally did the below 
 
 - Determine the runlevel(systemv), for systemd, it's just a logical old concept which is inherited from SystemV. Initial tty/serial console 
 - rc.sysinit to initiate the boot provisioning 
