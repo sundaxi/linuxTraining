@@ -1,17 +1,5 @@
 # Azure_linux_waagent_session.md
 
-Table of Contents
-=================
-
-   * [Waagent Session](#waagent-session)
-         * [Provisioning Log Parsing](#provisioning-log-parsing)
-            * [Daemon Initialization](#daemon-initialization)
-            * [Provioning Hanlder](#provioning-hanlder)
-            * [Provisioning Starting](#provisioning-starting)
-            * [Update Handler Run Latest](#update-handler-run-latest)
-            * [Update Handler Run](#update-handler-run)
-
-
 ### Provisioning Log Parsing
 
 #### Daemon Initialization
