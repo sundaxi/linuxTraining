@@ -11,10 +11,10 @@ This document is to help you understand better how Azure WaLinuxagent works. Thi
 - **Get Azure Linux Agent versioon: 2.2.14. [hard coded]**
 - **Get OS version: redhat 7.3.**  
   Get via python Platform module. 
-- **Python: 2.7.5. Get the current running python version.**   
+- **Python: 2.7.5. Get the current running python version**   
   Get via python sys module
 - **Check current pid and write it to /var/run/waagent.pid**  
-- **Check if openssl_fips enabled **   
+- **Check if openssl_fips enabled**   
   If yes, set system environment OPENSSL_FIPS_ENVIRONMENT=1
 - **Create waagent lib dirctory**   
   mkdir /var/lib/waagent
@@ -366,7 +366,7 @@ Loop execution(every 3s).  To handle all the extensions  and report status to St
 
 #### supplementary
 
-- **InVMArtifactsProfileBlob in Extension.[Incarnation].xml ** 
+- **InVMArtifactsProfileBlob in Extension.[Incarnation].xml** 
 
   ```bash
   curl "$(echo "cat //InVMArtifactsProfileBlob/text()"|xmllint --shell /var/lib/waagent/ExtensionsConfig.$(cat /var/lib/waagent/Incarnation).xml|sed '1d;$d'|sed 's/amp\;//g')" --output -
