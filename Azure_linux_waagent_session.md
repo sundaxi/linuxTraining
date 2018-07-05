@@ -380,7 +380,7 @@ Loop execution(every 3s).  To handle all the extensions  and report status to St
 
 - **Booting Agent logs reference** 
 
-  ```bash
+  ```log
   2018/03/27 06:31:35.310146 INFO Azure Linux Agent Version:2.2.14
   2018/03/27 06:31:35.326442 INFO OS: redhat 7.3
   2018/03/27 06:31:35.348147 INFO Python: 2.7.5
