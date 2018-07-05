@@ -293,7 +293,7 @@ Loop execution(every 3s).  To handle all the extensions  and report status to St
 
 - **Extension handle install in sequence** ( will enable in parallel)   
 
-- **Get Extension information from ExtensionConfig.[Incarnation].xml ** 
+- **Get Extension information from ExtensionConfig.[Incarnation].xml** 
 
   Plugins > Plugin.location  --- > /var/lib/waagent/[ExtensionName].[Incarnation].manifest.xml
 
