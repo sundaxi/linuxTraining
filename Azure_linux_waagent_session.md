@@ -381,94 +381,94 @@ Loop execution(every 3s).  To handle all the extensions  and report status to St
 - **Booting Agent logs reference** 
 
   ```bash
-2018/03/27 06:31:35.310146 INFO Azure Linux Agent Version:2.2.14
-2018/03/27 06:31:35.326442 INFO OS: redhat 7.3
-2018/03/27 06:31:35.348147 INFO Python: 2.7.5
-2018/03/27 06:31:35.373864 INFO Run daemon
-2018/03/27 06:31:35.381775 INFO No RDMA handler exists for distro='Red Hat Enterprise Linux Server' version='7.3'
-2018/03/27 06:31:35.402030 INFO Activate resource disk
-2018/03/27 06:31:35.446364 INFO Examining partition table
-2018/03/27 06:31:35.533381 INFO GPT not detected, determining filesystem
-2018/03/27 06:31:35.617907 INFO sfdisk with --part-type failed [1], retrying with -c
-2018/03/27 06:31:35.641501 INFO sfdisk -c -f /dev/sdb 1 -n succeeded
-2018/03/27 06:31:35.649249 INFO The partition is formatted with ntfs, updating partition type to 83
-2018/03/27 06:31:35.664116 INFO sfdisk with --part-type failed [1], retrying with -c
-2018/03/27 06:31:35.696590 INFO sfdisk -c  /dev/sdb 1 83 succeeded
-2018/03/27 06:31:35.732178 INFO Format partition [mkfs.ext4 -F /dev/sdb1]
-2018/03/27 06:31:41.205110 INFO Mount resource disk [mount /dev/sdb1 /mnt/resource]
-2018/03/27 06:31:41.984249 INFO Resource disk /dev/sdb is mounted at /mnt/resource with ext4
-2018/03/27 06:31:41.998592 INFO Enable swap
-2018/03/27 06:31:42.055540 INFO Create swap file
-2018/03/27 06:31:42.185732 INFO Enabled 2097152KB of swap at /mnt/resource/swapfile
-2018/03/27 06:31:42.195597 INFO Clean protocol
-2018/03/27 06:31:42.204418 INFO Running default provisioning handler
-2018/03/27 06:31:42.237181 INFO Copying ovf-env.xml
-2018/03/27 06:31:42.413697 INFO Successfully mounted dvd
-2018/03/27 06:31:42.520218 INFO Detect protocol by file
-2018/03/27 06:31:42.535260 INFO Clean protocol
-2018/03/27 06:31:42.542850 INFO WireServer endpoint is not found. Rerun dhcp handler
-2018/03/27 06:31:42.559982 INFO Test for route to 168.63.129.16
-2018/03/27 06:31:42.572130 INFO Route to 168.63.129.16 exists
-2018/03/27 06:31:42.580029 INFO Wire server endpoint:168.63.129.16
-2018/03/27 06:31:42.599873 INFO Fabric preferred wire protocol version:2015-04-05
-2018/03/27 06:31:42.612050 INFO Wire protocol version:2012-11-30
-2018/03/27 06:31:42.618541 WARNING Server preferred version:2015-04-05
-2018/03/27 06:31:47.390193 INFO Starting provisioning
-2018/03/27 06:31:47.401268 INFO Handle ovf-env.xml.
-2018/03/27 06:31:47.407458 INFO Set hostname [yingrhel74]
-2018/03/27 06:31:47.486384 INFO Publish hostname [yingrhel74]
-2018/03/27 06:31:48.203924 INFO Examine /proc/net/route for primary interface
-2018/03/27 06:31:48.220095 INFO Primary interface is [eth0]
-2018/03/27 06:31:48.226899 INFO interface [lo] has flags [73], is loopback [True]
-2018/03/27 06:31:48.240636 INFO Interface [lo] skipped
-2018/03/27 06:31:48.247306 INFO interface [eth0] has flags [4163], is loopback [False]
-2018/03/27 06:31:48.264843 INFO Interface [eth0] selected
-2018/03/27 06:31:49.836795 INFO Create user account if not exists
-2018/03/27 06:31:50.448662 INFO Configure sudoer
-2018/03/27 06:31:50.474853 INFO Configure sshd
-2018/03/27 06:31:50.489960 INFO Disabled SSH password-based authentication methods.
-2018/03/27 06:31:50.504029 INFO Configured SSH client probing to keep connections alive.
-2018/03/27 06:31:50.512338 INFO Deploy ssh public key.
-2018/03/27 06:31:51.587045 INFO Event: name=WALinuxAgent, op=Provision, message=Provision succeed
-2018/03/27 06:31:54.312964 INFO Provisioning complete
-2018/03/27 06:31:54.332730 INFO RDMA capabilities are not enabled, skipping
-2018/03/27 06:31:54.343546 INFO Installed Agent WALinuxAgent-2.2.14 is the most current agent
-2018/03/27 06:31:54.642036 INFO Agent WALinuxAgent-2.2.14 is running as the goal state agent
-2018/03/27 06:31:54.660275 INFO Wire server endpoint:168.63.129.16
-2018/03/27 06:31:54.678825 INFO Event: name=WALinuxAgent-2.2.14, op=HeartBeat, message=
-2018/03/27 06:31:54.693376 INFO Start env monitor service.
-2018/03/27 06:31:54.700378 INFO Configure routes
-2018/03/27 06:31:54.707800 INFO Gateway:None
-2018/03/27 06:31:54.713374 INFO Routes:None
-2018/03/27 06:31:54.765493 INFO Set block dev timeout: sda with timeout: 300
-2018/03/27 06:31:54.776016 INFO WALinuxAgent-2.2.14 running as process 5185
-2018/03/27 06:31:54.790663 INFO Wire server endpoint:168.63.129.16
-2018/03/27 06:31:54.802483 INFO Set block dev timeout: sdb with timeout: 300
-2018/03/27 06:31:54.937335 INFO Event: name=WALinuxAgent, op=Install, message=Agent WALinuxAgent-2.2.17 downloaded successfully
-2018/03/27 06:31:55.012045 INFO Event: name=WALinuxAgent, op=Install, message=Agent WALinuxAgent-2.2.18 downloaded successfully
-2018/03/27 06:31:55.101178 INFO Event: name=WALinuxAgent, op=Install, message=Agent WALinuxAgent-2.2.20 downloaded successfully
-2018/03/27 06:31:55.165273 INFO Event: name=WALinuxAgent, op=Install, message=Agent WALinuxAgent-2.2.25 downloaded successfully
-2018/03/27 06:31:55.180696 INFO Agent WALinuxAgent-2.2.14 discovered WALinuxAgent-2.2.25 as an update and will exit
-2018/03/27 06:31:55.366415 INFO Agent WALinuxAgent-2.2.14 launched with command 'python -u /usr/sbin/waagent -run-exthandlers' is successfully running
-2018/03/27 06:31:55.403122 INFO Event: name=WALinuxAgent, op=Enable, message=Agent WALinuxAgent-2.2.14 launched with command 'python -u /usr/sbin/waagent -run-exthandlers' is successfully running
-2018/03/27 06:31:55.421664 INFO Determined Agent WALinuxAgent-2.2.25 to be the latest agent
-2018/03/27 06:31:55.693817 INFO Agent WALinuxAgent-2.2.25 is running as the goal state agent
-2018/03/27 06:31:55.764766 INFO Wire server endpoint:168.63.129.16
-2018/03/27 06:31:55.792031 INFO Start env monitor service.
-2018/03/27 06:31:55.802916 INFO Configure routes
-2018/03/27 06:31:55.809169 INFO Gateway:None
-2018/03/27 06:31:55.832540 INFO Routes:None
-2018/03/27 06:31:55.893201 INFO Wire server endpoint:168.63.129.16
-2018/03/27 06:31:55.902063 INFO Purging disk cache, current incarnation is 1
-2018/03/27 06:31:55.910357 INFO WALinuxAgent-2.2.25 running as process 5344
-2018/03/27 06:31:55.925035 INFO Event: name=WALinuxAgent, op=Partition, message=92, duration=0
-2018/03/27 06:31:55.940503 INFO Event: name=WALinuxAgent, op=AutoUpdate, message=, duration=0
-2018/03/27 06:31:55.968102 INFO Wire server endpoint:168.63.129.16
-2018/03/27 06:31:56.052744 INFO Wire server endpoint:168.63.129.16
-2018/03/27 06:31:56.202170 INFO Event: name=WALinuxAgent, op=ProcessGoalState, message=Incarnation 1, duration=149
-2018/03/27 06:46:55.803565 INFO Agent WALinuxAgent-2.2.25 launched with command 'python -u bin/WALinuxAgent-2.2.25-py2.7.egg -run-exthandlers' is successfully running
-2018/03/27 06:46:55.822278 INFO Event: name=WALinuxAgent, op=Enable, message=Agent WALinuxAgent-2.2.25 launched with command 'python -u bin/WALinuxAgent-2.2.25-py2.7.egg -run-exthandlers' is successfully running
-2018/03/27 08:19:23.545609 INFO Agent WALinuxAgent-2.2.14 forwarding signal 15 to WALinuxAgent-2.2.25
-```
-
+  2018/03/27 06:31:35.310146 INFO Azure Linux Agent Version:2.2.14
+  2018/03/27 06:31:35.326442 INFO OS: redhat 7.3
+  2018/03/27 06:31:35.348147 INFO Python: 2.7.5
+  2018/03/27 06:31:35.373864 INFO Run daemon
+  2018/03/27 06:31:35.381775 INFO No RDMA handler exists for distro='Red Hat Enterprise Linux Server' version='7.3'
+  2018/03/27 06:31:35.402030 INFO Activate resource disk
+  2018/03/27 06:31:35.446364 INFO Examining partition table
+  2018/03/27 06:31:35.533381 INFO GPT not detected, determining filesystem
+  2018/03/27 06:31:35.617907 INFO sfdisk with --part-type failed [1], retrying with -c
+  2018/03/27 06:31:35.641501 INFO sfdisk -c -f /dev/sdb 1 -n succeeded
+  2018/03/27 06:31:35.649249 INFO The partition is formatted with ntfs, updating partition type to 83
+  2018/03/27 06:31:35.664116 INFO sfdisk with --part-type failed [1], retrying with -c
+  2018/03/27 06:31:35.696590 INFO sfdisk -c  /dev/sdb 1 83 succeeded
+  2018/03/27 06:31:35.732178 INFO Format partition [mkfs.ext4 -F /dev/sdb1]
+  2018/03/27 06:31:41.205110 INFO Mount resource disk [mount /dev/sdb1 /mnt/resource]
+  2018/03/27 06:31:41.984249 INFO Resource disk /dev/sdb is mounted at /mnt/resource with ext4
+  2018/03/27 06:31:41.998592 INFO Enable swap
+  2018/03/27 06:31:42.055540 INFO Create swap file
+  2018/03/27 06:31:42.185732 INFO Enabled 2097152KB of swap at /mnt/resource/swapfile
+  2018/03/27 06:31:42.195597 INFO Clean protocol
+  2018/03/27 06:31:42.204418 INFO Running default provisioning handler
+  2018/03/27 06:31:42.237181 INFO Copying ovf-env.xml
+  2018/03/27 06:31:42.413697 INFO Successfully mounted dvd
+  2018/03/27 06:31:42.520218 INFO Detect protocol by file
+  2018/03/27 06:31:42.535260 INFO Clean protocol
+  2018/03/27 06:31:42.542850 INFO WireServer endpoint is not found. Rerun dhcp handler
+  2018/03/27 06:31:42.559982 INFO Test for route to 168.63.129.16
+  2018/03/27 06:31:42.572130 INFO Route to 168.63.129.16 exists
+  2018/03/27 06:31:42.580029 INFO Wire server endpoint:168.63.129.16
+  2018/03/27 06:31:42.599873 INFO Fabric preferred wire protocol version:2015-04-05
+  2018/03/27 06:31:42.612050 INFO Wire protocol version:2012-11-30
+  2018/03/27 06:31:42.618541 WARNING Server preferred version:2015-04-05
+  2018/03/27 06:31:47.390193 INFO Starting provisioning
+  2018/03/27 06:31:47.401268 INFO Handle ovf-env.xml.
+  2018/03/27 06:31:47.407458 INFO Set hostname [yingrhel74]
+  2018/03/27 06:31:47.486384 INFO Publish hostname [yingrhel74]
+  2018/03/27 06:31:48.203924 INFO Examine /proc/net/route for primary interface
+  2018/03/27 06:31:48.220095 INFO Primary interface is [eth0]
+  2018/03/27 06:31:48.226899 INFO interface [lo] has flags [73], is loopback [True]
+  2018/03/27 06:31:48.240636 INFO Interface [lo] skipped
+  2018/03/27 06:31:48.247306 INFO interface [eth0] has flags [4163], is loopback [False]
+  2018/03/27 06:31:48.264843 INFO Interface [eth0] selected
+  2018/03/27 06:31:49.836795 INFO Create user account if not exists
+  2018/03/27 06:31:50.448662 INFO Configure sudoer
+  2018/03/27 06:31:50.474853 INFO Configure sshd
+  2018/03/27 06:31:50.489960 INFO Disabled SSH password-based authentication methods.
+  2018/03/27 06:31:50.504029 INFO Configured SSH client probing to keep connections alive.
+  2018/03/27 06:31:50.512338 INFO Deploy ssh public key.
+  2018/03/27 06:31:51.587045 INFO Event: name=WALinuxAgent, op=Provision, message=Provision succeed
+  2018/03/27 06:31:54.312964 INFO Provisioning complete
+  2018/03/27 06:31:54.332730 INFO RDMA capabilities are not enabled, skipping
+  2018/03/27 06:31:54.343546 INFO Installed Agent WALinuxAgent-2.2.14 is the most current agent
+  2018/03/27 06:31:54.642036 INFO Agent WALinuxAgent-2.2.14 is running as the goal state agent
+  2018/03/27 06:31:54.660275 INFO Wire server endpoint:168.63.129.16
+  2018/03/27 06:31:54.678825 INFO Event: name=WALinuxAgent-2.2.14, op=HeartBeat, message=
+  2018/03/27 06:31:54.693376 INFO Start env monitor service.
+  2018/03/27 06:31:54.700378 INFO Configure routes
+  2018/03/27 06:31:54.707800 INFO Gateway:None
+  2018/03/27 06:31:54.713374 INFO Routes:None
+  2018/03/27 06:31:54.765493 INFO Set block dev timeout: sda with timeout: 300
+  2018/03/27 06:31:54.776016 INFO WALinuxAgent-2.2.14 running as process 5185
+  2018/03/27 06:31:54.790663 INFO Wire server endpoint:168.63.129.16
+  2018/03/27 06:31:54.802483 INFO Set block dev timeout: sdb with timeout: 300
+  2018/03/27 06:31:54.937335 INFO Event: name=WALinuxAgent, op=Install, message=Agent WALinuxAgent-2.2.17 downloaded successfully
+  2018/03/27 06:31:55.012045 INFO Event: name=WALinuxAgent, op=Install, message=Agent WALinuxAgent-2.2.18 downloaded successfully
+  2018/03/27 06:31:55.101178 INFO Event: name=WALinuxAgent, op=Install, message=Agent WALinuxAgent-2.2.20 downloaded successfully
+  2018/03/27 06:31:55.165273 INFO Event: name=WALinuxAgent, op=Install, message=Agent WALinuxAgent-2.2.25 downloaded successfully
+  2018/03/27 06:31:55.180696 INFO Agent WALinuxAgent-2.2.14 discovered WALinuxAgent-2.2.25 as an update and will exit
+  2018/03/27 06:31:55.366415 INFO Agent WALinuxAgent-2.2.14 launched with command 'python -u /usr/sbin/waagent -run-exthandlers' is successfully running
+  2018/03/27 06:31:55.403122 INFO Event: name=WALinuxAgent, op=Enable, message=Agent WALinuxAgent-2.2.14 launched with command 'python -u /usr/sbin/waagent -run-exthandlers' is successfully running
+  2018/03/27 06:31:55.421664 INFO Determined Agent WALinuxAgent-2.2.25 to be the latest agent
+  2018/03/27 06:31:55.693817 INFO Agent WALinuxAgent-2.2.25 is running as the goal state agent
+  2018/03/27 06:31:55.764766 INFO Wire server endpoint:168.63.129.16
+  2018/03/27 06:31:55.792031 INFO Start env monitor service.
+  2018/03/27 06:31:55.802916 INFO Configure routes
+  2018/03/27 06:31:55.809169 INFO Gateway:None
+  2018/03/27 06:31:55.832540 INFO Routes:None
+  2018/03/27 06:31:55.893201 INFO Wire server endpoint:168.63.129.16
+  2018/03/27 06:31:55.902063 INFO Purging disk cache, current incarnation is 1
+  2018/03/27 06:31:55.910357 INFO WALinuxAgent-2.2.25 running as process 5344
+  2018/03/27 06:31:55.925035 INFO Event: name=WALinuxAgent, op=Partition, message=92, duration=0
+  2018/03/27 06:31:55.940503 INFO Event: name=WALinuxAgent, op=AutoUpdate, message=, duration=0
+  2018/03/27 06:31:55.968102 INFO Wire server endpoint:168.63.129.16
+  2018/03/27 06:31:56.052744 INFO Wire server endpoint:168.63.129.16
+  2018/03/27 06:31:56.202170 INFO Event: name=WALinuxAgent, op=ProcessGoalState, message=Incarnation 1, duration=149
+  2018/03/27 06:46:55.803565 INFO Agent WALinuxAgent-2.2.25 launched with command 'python -u bin/WALinuxAgent-2.2.25-py2.7.egg -run-exthandlers' is successfully running
+  2018/03/27 06:46:55.822278 INFO Event: name=WALinuxAgent, op=Enable, message=Agent WALinuxAgent-2.2.25 launched with command 'python -u bin/WALinuxAgent-2.2.25-py2.7.egg -run-exthandlers' is successfully running
+  2018/03/27 08:19:23.545609 INFO Agent WALinuxAgent-2.2.14 forwarding signal 15 to WALinuxAgent-2.2.25
+  ```
   
+    
