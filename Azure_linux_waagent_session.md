@@ -1,19 +1,5 @@
 # Azure_linux_waagent_session.md
 
-Table of Contents
-=================
-      * [Azure Waagent Session](#azure-waagent-session)
-         * [Introduction](#introduction)
-         * [Code Logics](#code-logics)
-            * [Daemon Initialization](#daemon-initialization)
-            * [Provioning Hanlder](#provioning-hanlder)
-            * [Provisioning Starting](#provisioning-starting)
-            * [Update Handler Run Latest](#update-handler-run-latest)
-            * [Update Handler Run(subprocess start working)](#update-handler-runsubprocess-start-working)
-            * [exthandler Run](#exthandler-run)
-            * [supplementary](#supplementary)
-
-
 ### Introduction
 
 This document is to help you understand better how Azure WaLinuxagent works. This document is also used for my Linux training session purpose. 
