@@ -2,7 +2,6 @@
 
 Table of Contents
 =================
-
       * [Azure Waagent Session](#azure-waagent-session)
          * [Introduction](#introduction)
          * [Code Logics](#code-logics)
@@ -14,7 +13,6 @@ Table of Contents
             * [exthandler Run](#exthandler-run)
             * [supplementary](#supplementary)
 
-Created by [gh-md-toc](https://github.com/ekalinin/github-markdown-toc)
 
 ### Introduction
 
