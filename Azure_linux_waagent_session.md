@@ -2,17 +2,16 @@
 
 Table of Contents
 =================
-
-   * [Azure_linux_waagent_session.md](#azure_linux_waagent_sessionmd)
-         * [Introduction](#introduction)
-         * [Code Logics](#code-logics)
-            * [Daemon Initialization](#daemon-initialization)
-            * [Provioning Hanlder](#provioning-hanlder)
-            * [Provisioning Starting](#provisioning-starting)
-            * [Update Handler Run Latest](#update-handler-run-latest)
-            * [Update Handler Run(subprocess start working)](#update-handler-runsubprocess-start-working)
-            * [exthandler Run](#exthandler-run)
-            * [supplementary](#supplementary)
+* [Azure_linux_waagent_session.md](#azure_linux_waagent_sessionmd)
+      * [Introduction](#introduction)
+      * [Code Logics](#code-logics)
+         * [Daemon Initialization](#daemon-initialization)
+         * [Provioning Hanlder](#provioning-hanlder)
+         * [Provisioning Starting](#provisioning-starting)
+         * [Update Handler Run Latest](#update-handler-run-latest)
+         * [Update Handler Run(subprocess start working)](#update-handler-runsubprocess-start-working)
+         * [exthandler Run](#exthandler-run)
+         * [supplementary](#supplementary)
 
 ### Introduction
 
